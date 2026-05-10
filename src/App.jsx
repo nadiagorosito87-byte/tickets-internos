@@ -199,7 +199,7 @@ function TicketModal({ticket,user,users,onClose,onUpdate}){
 function TicketRow({ticket,onClick,showAutor,isNew,onEliminar}){
   const[hov,setHov]=useState(false);const[confirm,setConfirm]=useState(false);
   return(
-    <div onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)} style={{background:hov?G.card+"ee":G.card,border:"1px solid "+(hov?G.accentL+"44":G.border),borderRadius:12,padding:"14px 18px",display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}>
+    <div onMouseEnter={()=>setHov(true)} onMouseLeave={()=>{setHov(false);setConfirm(false);}} style={{background:hov?G.card+"ee":G.card,border:"1px solid "+(hov?G.accentL+"44":G.border),borderRadius:12,padding:"14px 18px",display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}>
       <div style={{flex:1,minWidth:0,cursor:"pointer"}} onClick={onClick}>
         <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:5,flexWrap:"wrap"}}>
           <span style={{color:G.accentL,fontSize:11,fontWeight:700,...mono}}>{ticket.id}</span>
@@ -261,7 +261,7 @@ function VistaActivador({user,tickets,onCrear,onOpenTicket,onEliminar}){
   const[filtros,setFiltros]=useState({estado:"",mes:"",anio:"",usuario:"",desde:"",hasta:""});
   const[busqueda,setBusqueda]=useState("");
   const[showFiltros,setShowFiltros]=useState(false);
-  const mis=tickets.filter(t=>t.autor_id===user.id||t.autor===user.name).sort((a,b)=>b.ts-a.ts);
+  const mis=tickets.filter(t=>t.autor_id===user.id).sort((a,b)=>b.ts-a.ts);
   let filtrados=aplicarFiltros(mis,filtros);
   if(busqueda.trim()){const q=busqueda.toLowerCase();filtrados=filtrados.filter(t=>t.titulo.toLowerCase().includes(q)||t.id.toLowerCase().includes(q)||(t.nro_cliente||"").includes(q));}
   function crear(data){onCrear({...data,autor_id:user.id,autor:user.name});setShowForm(false);}
